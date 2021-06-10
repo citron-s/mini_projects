@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content} )}">
+
+
+    <th:block th:fragment="content">
+
+        <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+        <style type="text/css">
+            #heading-H1fFGrs2nc .sh-heading-content {
+                font-size: 40px;font-weight: 400!important;
+            }
+
+            #heading-H1fFGrs2nc .sh-heading-content strong,#heading-H1fFGrs2nc .sh-heading-additional-text strong {
+                font-family: 'Playfair Display'!important;
+            }
+
+            #description {
+                display: inline-block;
+                width: 220px;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        </style>
+
+
+
+
+        <div class="vc_column-inner ">
+            <div class="wpb_wrapper">
+
+            <div class="sh-heading sh-heading-style1" id="heading-H1fFGrs2nc">
+                <h2 class="sh-heading-content size-custom">
+                    <span style="text-align: center;"><strong><em>Healthy life</em></strong></span>
+                    <span style="text-align: center;">for you</span>
+                </h2>
+            </div>
+
+            <p style="font-size: 15px; font-color: #28a745;">건강하고 맛 좋은 음식은 함께- <br/> share the good tips!</p>
+            <span>
+                <a th:href="@{/board/register}">
+                    <button type="button" style="float: right;" class="btn btn-outline-primary">신규 등록</button>
+                </a>
+            </span>
+            <br/>
+
+                <div class="sh-empty-space vc_empty_space sh-empty-space-9phA6iqeT3  " style="height: 80px">
+                    <span class="vc_empty_space_inner"></span>
+                </div>
+
+
+                <div class="sh-recent-posts" >
+
+                    <div th:each="dto: ${result.dtoList}" class="sh-group blog-list blog-style-grid">
+
+                        <article id="posts" class="post-item post-list" >
+                            <div class="post-container">
+
+                                <div class="img post-meta-thumb">
+                                    <img width="300" height="auto" th:src="${dto.imgurl}"/>    <!-- S:\mall\"+"[[${dto.imgurl}]]">   S:\mall\recipe\image01.jpg -->
+                                </div>
+
+                                <div class="title post-meta-title">
+                                    <a th:href="@{/board/read(bno= ${dto.bno}, page= ${result.page}, type=${pageRequestDTO.type}, keyword= ${pageRequestDTO.keyword})}">
+                                        <h2 itemprop="post-title"> <small>[[${dto.bno}]]. </small> [[${dto.title}]] </h2>
+                                    </a>
+                                </div>
+
+                                <div id="description" class="post-content" itemprop="text">
+                                    <p>[[${dto.content}]]</p>
+                                </div>
+
+                                <div class="text post-meta">
+                                    <small>
+                                        <span class="post-meta-author"> by  [[${dto.username}]] ([[${dto.userid}]]) </span>
+                                        <time class="updated semantic" > @ [[${dto.regDate}]] </time>
+                                    </small>
+                                </div>
+                            </div>
+                        </article>
+                        <br/>
+                    </div>
+                </div>
+
+
+
+                <ul class="pagination h-100 justify-content-center align-items-center">
+
+                    <li class="page-item " th:if="${result.prev}">
+                        <a class="page-link" tabindex="-1" th:href="@{/board/list(page= ${result.start -1}, type=${pageRequestDTO.type}, keyword = ${pageRequestDTO.keyword}) }"> Previous </a>
+                    </li>
+
+                    <li th:class=" 'page-item ' + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
+                        <a class="page-link" th:href="@{/board/list(page = ${page}, type=${pageRequestDTO.type}, keyword= ${pageRequestDTO.keyword} )}">
+                            [[${page}]]
+                        </a>
+                    </li>
+
+                    <li class="page-item" th:if="${result.next}">
+                        <a class="page-link" th:href="@{/board/list(page= ${result.end + 1}, type=${pageRequestDTO.type}, keyword= ${pageRequestDTO.keyword} )}"> Next </a>
+                    </li>
+
+
+
+                <div class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header"> <!-- --------------------------------------------------------- -->
+                                <h5 class="modal-title">  Success! </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>요청하신 내용이 처리 완료되었습니다.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </th:block>
+</th:block>
+
+
+<script th:inline="javascript">
+
+    var msg = [[${msg}]];
+    console.log(msg);
+
+    if(msg){
+        $(".modal").modal();
+    }
+    var searchForm = $("#searchForm");
+
+
+    $('.btn-search').click(function(e){
+        searchForm.submit();
+    });
+
+
+    $('.btn-clear').click(function(e){
+        searchForm.empty().submit();
+    });
+</script>

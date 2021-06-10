@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- security.... redirect page is only possible after creating LoginSuccessHandler -->
+
+
+<th:block th:fragment="setContent(content)">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title> recipies board </title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript -->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/sb-admin-2.min.js}"></script>
+</head>
+
+
+
+<body id="page-top">
+
+    <div class="header" id="wrapper"> <!-- Page Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column"> <!-- Content Wrapper -->
+
+            <div id="content">  <!-- Main Content -->
+
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">  <!-- Topbar -->
+
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3"> <!-- Sidebar Toggle (Topbar) -->
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <h5><img th:src="@{/img/logo_vito1.jpg}" height="60px" onclick="location='/board/list'"/> </h5>
+                    <h5><img th:src="@{/img/lovo_vito_side.jpg}" height="60px" onclick="location='/board/list'"/> </h5>
+                    <br/>
+                    <span class="mainPage" onclick="location='/board/list'"> </span>
+
+
+                    <div class="topbar-divider d-none d-sm-block" style="float:right;"></div>
+
+                    <li class="nav-item dropdown no-arrow" id="authenticated">  <!-- Nav Item - User Information -->
+                        <a class="nav-link dropdown-toggle" style="float:right;" href="#" id="userDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <!-- ---------- 이름 들어가는 곳 --------------------------------------------------------------------------------------- -->
+                            <span class="nameBox mr-2 d-none d-lg-inline text-gray-600 small" onclick="loginPage()"> 로그인 </span>
+                            <!-- ----------------------------------------------------------------------------------------------------------------- -->
+                            <img class="img-profile rounded-circle"  th:src="@{/img/undraw_profile.svg}">
+                        </a>
+
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Profile
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Settings
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Activity Log
+                            </a>
+                            <div class="dropdown-divider"></div>
+
+                            <!-- 수정한 부분 -->
+                            <th:block sec:authorize access="isAnonymous()">
+                                <a href="/customLogin" id="login" data-target="#loginModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    로그인
+                                </a>
+                            </th:block>
+
+                            <th:block sec:authorize access="isAuthenticated()">
+                                <a href="/security/customLogout" id="finalLogout" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    로그아웃
+                                </a>
+                            </th:block>
+                        </div>
+                    </li>
+                </nav> <!-- end Topbar -->
+
+<!-- BEGIN Page Content --------------------------------------------------------------------------------------------------------------------------- -->
+
+                <div class="content container-fluid">
+                    <div id="page-wrapper">
+                        <th:block th:replace = "${content}">
+
+                        </th:block>
+                    </div> <!-- /.container-fluid -->
+                </div> <!-- End of Main Content -->
+
+<!-- END Page Content --------------------------------------------------------------------------------------------------------------------------- -->
+
+                <footer class="footer sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; vito 2021</span>
+                        </div>
+                    </div>
+                </footer>
+
+            </div> <!-- Main Content -->
+        </div> <!-- Content Wrapper -->
+    </div> <!-- Page Wrapper -->
+
+</body>
